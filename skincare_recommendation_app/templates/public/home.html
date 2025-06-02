@@ -1,0 +1,185 @@
+{% load i18n static stisla_tweaks %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+  <title>Facial Skincare Recommendation App</title>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}">
+  
+  {% block extrastyle %}{% endblock %}
+  {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">{% endif %}
+  {% block extrahead %}{% endblock %}
+  {% block responsive %}
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">  
+
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive.css" %}">
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
+  {% endblock %}
+  {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  
+  <!-- Template CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static "assets/css/style.css" %}">
+  <link rel="stylesheet" href="{% static "admin/assets/css/components.css" %}">
+  <link rel="stylesheet" href="{% static "admin/assets/css/custom.css" %}">
+  <link rel="stylesheet" href="{% static "admin/assets/css/extra.css" %}">
+
+  <!-- General JS Scripts -->
+  <script src="{% static "admin/assets/js/jquery-3.3.1.min.js" %}"></script>
+  <script src="{% static "admin/assets/js/bootstrap.min.js" %}"></script>
+    
+</head>
+
+{% load i18n %}
+
+<body>
+  <div class="navbar-bg mb-3 border border-bottom-1">
+    <nav class="navbar navbar-expand-md main-navbar bg-navbar">
+      <div class="navbar-brand d-flex flex-fill justify-content-end ">
+        <span class="">Skincare Recommendation App</span>
+      </div>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <div class="navbar-nav ">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+          <a class="nav-link" href="/about">About</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div id="app">
+    <div class="main-wrapper">
+      <!-- Main Content -->
+      <div class="container">
+
+        <section class="section">
+          <!-- Upload File -->
+          <div class="container"> 
+            <div class="row mb-5">
+              <div class="col-4"><img src="{% if userUploadImage %} {% static userUploadImage %} {% else %} 
+                {% static "admin/assets/img/example-image.jpg" %} {% endif %}" class="img-thumbnail preview-upload-image" alt="..."></div>
+              <div class="col">
+                <div class = "col">
+                  <form method="POST" enctype="multipart/form-data">
+                    {%csrf_token%} 
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="inputGroupFile02" name="inputFile" accept=".jpg,.png,.jpeg" multiple="multiple">
+                          <label class="custom-file-label" for="inputGroupFile02" aria-describedby="inputGroupFileAddon02">{% if userFileName %} {{ userFileName }} 
+                            {% else %} Choose File {% endif %}</label>
+                        </div>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary get-recommendation" id="btn-submit" disabled>Get Recommendation</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <div class = "col">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title text-dark">RESULTS OF YOUR SKIN ANALYSIS: </h5>
+                      <h6 class="card-subtitle mb-2 text-muted" id="productCategory" hidden>{{productCategory}}</h6>
+                      {% if skinDescription %}
+                      <h1 class="card-text" id="skinDescription">{{ skinDescription }}</h1>
+                      {% else %}
+                      <p class="card-text text-secondary">No Result - Upload Your Skin Image First</p>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="section-header mb-12">
+              {% block content_title %}{% if title %}<h1 class="h3 mb-0 text-dark">{{ title }}</h1>{% endif %}{% endblock %}
+            </div>
+
+            <div class = "row">
+              {% if products %}
+                {% for product in products %}
+                <div class="card mb-12" style="max-width: 540px;">
+                  <div class="row no-gutters">
+                    <div class="col-md-12">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">Rs. {{ product.price }}</p>
+                        <p class="card-text text-wrap">{% autoescape off %}{{ product.productType }}{% endautoescape %}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              {% else %}
+              <div class="col text-center text-secondary"><p class="">No Product Recommendation - Upload Your Skin Image First</p></div>
+              {% endif %}
+            </div>
+          </div>
+        </section>
+        <div class = "d-flex justify-content-center">
+          <nav aria-label="Page navigation">
+            <ul class="pagination">
+              {% if products.has_previous %}
+                  <a class= "page-link" href="?category={{ productCategory }}&page=1&fileName={{ userFileName }}">&laquo; first</a>
+                  <li class="page-item">
+                    <a class="page-link" href="?category={{ productCategory }}&page={{ products.previous_page_number }}&fileName={{ userFileName }}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>
+              {% endif %}
+              
+              {% for i in range %}
+              <li class="page-item"><a class="page-link" href="?category={{ productCategory }}&page={{ i }}&fileName={{ userFileName }}">{{ i }}</a></li>
+              {% endfor %}
+
+              {% if products.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?category={{ productCategory }}&page={{ products.next_page_number }}&fileName={{ userFileName }}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+                <a class="page-link" href="?category={{ productCategory }}&page={{ products.paginator.num_pages }}&fileName={{ userFileName }}">last &raquo;</a>
+              {% endif %}              
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      
+      <footer class="container main-footer border border-bottom-0 border-right-0 border-left-0" syle="position:relative">
+        <div class="row">
+          <div class="col footer-left d-flex flex-row-reverse align-items-center border-right border-dark">
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  
+  <!-- Template JS File -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  
+  <script>
+    $('#inputGroupFile02').change(function(e){
+      if (e.target.files) {
+        var filePath = URL.createObjectURL(e.target.files[0]);
+        var fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+        $('.preview-upload-image').attr("src", filePath);
+        $('.get-recommendation').removeAttr("disabled");
+      }
+    });
+  </script>
+
+  <script src="{% static "admin/assets/js/scripts.js" %}"></script>
+  <script src="{% static "admin/assets/js/custom.js" %}"></script>
+    
+</body>
+</html>

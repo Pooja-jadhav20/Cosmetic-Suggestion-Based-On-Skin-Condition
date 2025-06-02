@@ -1,0 +1,163 @@
+{% load i18n static stisla_tweaks %}<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+  <title>Facial Skincare Recommendation App</title>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "admin/css/base.css" %}{% endblock %}">
+  
+  {% block extrastyle %}{% endblock %}
+  {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock %}">{% endif %}
+  {% block extrahead %}{% endblock %}
+  {% block responsive %}
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">  
+
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive.css" %}">
+    {% if LANGUAGE_BIDI %}<link rel="stylesheet" type="text/css" href="{% static "admin/css/responsive_rtl.css" %}">{% endif %}
+  {% endblock %}
+  {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE">{% endblock %}
+
+  <!-- General CSS Files -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
+  integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  
+  <!-- Template CSS -->
+  <link rel="stylesheet" type="text/css" href="{% static "assets/css/style.css" %}">
+  <link rel="stylesheet" href="{% static "admin/assets/css/components.css" %}">
+  <link rel="stylesheet" href="{% static "admin/assets/css/custom.css" %}">
+  <link rel="stylesheet" href="{% static "admin/assets/css/extra.css" %}">
+
+  <!-- General JS Scripts -->
+  <script src="{% static "admin/assets/js/jquery-3.3.1.min.js" %}"></script>
+  <script src="{% static "admin/assets/js/bootstrap.min.js" %}"></script>
+    
+</head>
+
+{% load i18n %}
+
+<body>
+  <div class="navbar-bg mb-3 border border-bottom-1">
+    <nav class="navbar navbar-expand-md main-navbar bg-navbar">
+      <a class="navbar-brand" href="#">
+      </a>
+      <div class="navbar-brand d-flex flex-fill justify-content-end ">
+        <span class="">Skincare Recommendation App</span>
+      </div>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <div class="navbar-nav ">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+          <a class="nav-link" href="/about">About</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div id="app">
+    <div class="main-wrapper">
+      <!-- Main Content -->
+      <div class="container">
+
+        <section class="section mb-3">
+          <div class="card mb-3">
+            <div class="row no-gutters">
+              <div class="col-md-12">
+                <div class="card-body">
+                  <h5 class="card-title text-center">About</h5>
+                  <p class="card-text">
+                  <b>Skincare Recommendation App</b> is a system developed to be able to <b>detect facial skin diseases</b> and <b>provide product recommendations</b>. 
+                  For skin diseases that are capable of detection there are 3 namely <b>Acne</b>, <b>Wrinkles</b>, and <b>Blackhead</b>.
+                  </p>
+                  {% comment %} <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> {% endcomment %}
+                </div>
+              </div>
+            </div>
+          </div>
+            <div class="card mb-3">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <img src="{% static "assets/img/acn10.jpg" %}" class="card-img" alt="acne image">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">Acne (Jerawat)</h5>
+                      <p class="card-text">
+                        <ul>
+                          <li>Acne is a skin disease involving the oil glands at the base of hair follicles.</li>
+                          <li>It affects 3 in every 4 people aged 11 to 30 years.</li>
+                          <li>It is not dangerous, but it can leave skin scars.</li>
+                          <li>Treatment depends on how severe and persistent it is.</li>
+                          <li>Risk factors include genetics, the menstrual cycle, anxiety and stress, hot and humid climates, using oil-based makeup, 
+                            and squeezing pimples.</li>
+                        </ul>
+                      </p>
+                      <p class="card-text"><small class="text-muted">(source: <a src="https://www.medicalnewstoday.com/articles/107146#_noHeaderPrefixedContent" 
+                        target="blank">https://www.medicalnewstoday.com/</a>)</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-3">
+                <div class="row no-gutters">
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">Wrinkles (Keriput)</h5>
+                      <p class="card-text">
+                        <ul>
+                          <li>Wrinkles are creases, folds, or ridges in the skin.</li>
+                          <li>It naturally appear as people get older and their skin becomes less elastic.</li>
+                          <li>Creams, laser therapy, Botox, and other treatments may help reduce the appearance of wrinkles.</li>
+                          <li>Avoiding sun exposure can help prevent them.</li>
+                        </ul>
+                      </p>
+                      <p class="card-text"><small class="text-muted">(source: <a src="https://www.medicalnewstoday.com/articles/174852" target="blank">https://www.medicalnewstoday.com/</a>)</small></p>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <img src="{% static "assets/img/try_wrinkles.jpg" %}" class="card-img" alt="wrinkles image">
+                  </div>
+                </div>
+              </div>
+
+              <div class="card mb-3">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <img src="{% static "assets/img/bhead69.jpg" %}" class="card-img" alt="blackhead image">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">Blackhead (Komedo)</h5>
+                      <p class="card-text">
+                        <ul>
+                          <li>According to the American Academy of Dermatology, blackhead affects as many as 50 million people in the United States (U.S.) each year.</li>
+                          <li>Girls aged 14 to 17 years and boys aged 16 to 19 years are most commonly affected by blackhead, though it can occur at any age.</li>
+                          <li>People should avoid popping, squeezing, or picking at blackheads.</li>
+                          <li>Gentle cleansing with dedicated chemical soaps or lotions is the most effective way to clear blackheads.</li>
+                        </ul>
+                      </p>
+                      <p class="card-text"><small class="text-muted">(source: <a src="https://www.medicalnewstoday.com/articles/311991" target="blank">https://www.medicalnewstoday.com/</a>)</small></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </section>
+        
+      </div>
+
+      
+    </div>
+  </div>
+  
+  <!-- Template JS File -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+  <script src="{% static "admin/assets/js/scripts.js" %}"></script>
+  <script src="{% static "admin/assets/js/custom.js" %}"></script>
+    
+</body>
+</html>
